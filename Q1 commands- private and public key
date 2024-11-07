@@ -1,0 +1,17 @@
+ATtach iteret gateway to VPC. 
+Add 0.0.0.0/0 to igw
+create key-pair.pem
+copy that file i istace
+chmod 600 fileame
+ssh -i <key path> ubuntu@<private-ip>
+dcc.godaddy.com
+dns, add new record. 
+route 53 -> edit records
+A record ame:www, value:ip
+routig policy geoloocatio, 
+coutry :idia
+each vpc i regio 
+each iteret gateway i istace
+add 0.0.0.0/0 to igw
+add subnet 192.198.0.0/16
+now ns lookup.

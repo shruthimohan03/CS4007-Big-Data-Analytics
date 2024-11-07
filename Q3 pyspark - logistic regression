@@ -1,0 +1,61 @@
+Q:
+load the two dataframes data1 and data2 as pyspark datafrmes
+join the df on CustomerID Column
+find the average estimated salary for the active members in the data
+find the average age of male and female
+use SQL Queries to display customers who earns more than 1 lakh
+group the data by geography find the total number of products for each group
+use MLLib and create a logistic regression model for the 'Excited' column
+
+
+
+CODE
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName("DataProcessing").getOrCreate()
+
+# Load data1 and data2 as PySpark DataFrames
+data1 = spark.read.csv("path/to/data1.csv", header=True, inferSchema=True)
+data2 = spark.read.csv("path/to/data2.csv", header=True, inferSchema=True)
+# Join the data on CustomerID
+joined_df = data1.join(data2, on='CustomerID', how='inner')
+# Filter active members and calculate the average estimated salary
+active_avg_salary = joined_df.filter(joined_df['IsActiveMember'] == 1).groupBy().avg('EstimatedSalary').collect()[0][0]
+print(f"Average Estimated Salary for Active Members: {active_avg_salary}")
+# Calculate average age for males and females
+avg_age = joined_df.groupBy('Gender').avg('Age')
+avg_age.show()
+# Create a temporary SQL view
+joined_df.createOrReplaceTempView("customer_data")
+
+# Query customers who earn more than 1 lakh
+high_salary_customers = spark.sql("SELECT * FROM customer_data WHERE EstimatedSalary > 100000")
+high_salary_customers.show()
+# Group by geography and count total number of products
+geography_product_count = joined_df.groupBy('Geography').sum('NumOfProducts')
+geography_product_count.show()
+
+
+
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.classification import LogisticRegression
+
+# Prepare features using VectorAssembler
+feature_cols = ['Age', 'EstimatedSalary', 'Balance', 'NumOfProducts']  # Select relevant columns
+assembler = VectorAssembler(inputCols=feature_cols, outputCol='features')
+data_prepared = assembler.transform(joined_df)
+
+# Prepare final DataFrame for training
+final_data = data_prepared.select('features', 'Excited')
+
+# Split the data into training and test sets
+train_data, test_data = final_data.randomSplit([0.7, 0.3])
+
+# Create and train a Logistic Regression model
+log_reg = LogisticRegression(labelCol='Excited')
+log_reg_model = log_reg.fit(train_data)
+
+# Evaluate the model on test data
+test_results = log_reg_model.evaluate(test_data)
+print("Test Results - Area Under ROC:", test_results.areaUnderROC)

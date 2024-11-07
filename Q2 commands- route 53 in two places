@@ -1,0 +1,8 @@
+VPC -> Create VPC
+
+Subnet -> Different Numbers (1 and 2)
+Elastic IP -> Create, Create EC2, then associate
+Keys -> Create, copy and paste to EC2
+
+chmod 600 key
+ssh -i key-path ubuntu@ip

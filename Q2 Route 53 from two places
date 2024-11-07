@@ -1,0 +1,44 @@
+Go to godaddy
+Login with credentials 
+
+CREATE HOSTED ZONE IN AWS
+Give the domain name 21011101125.ngaws.xyz
+Create
+Go to record below 
+Copy the ns value under value/Route tables number 
+Copy the first one
+
+Go to dcc.godaddy
+Go to DNS
+dns record, type is NS, 
+Name is roll number 
+Paste the NS
+
+Create two Elastic ips
+Go to hosted zone
+Create record
+www 
+A RECORD
+First Elastic ip is given in value 
+Rioting policy is geolocation
+Location india
+Record id is india
+
+
+Record 2
+www
+A record
+Second ip paste
+Geolocaiton
+US
+Us in record Id
+
+Create 2 elastic ips and 2 instances associate 
+One is indian
+
+Another is US:
+Go to north Virginia 
+Launch instance
+
+Go to us instance
+nslookup www.21011101125.ngaws.xyz

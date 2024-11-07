@@ -1,0 +1,28 @@
+Add subnet 
+Create public and private s8milar diff ip
+
+Create speerate public and private Route tables
+
+
+Subnet association - edit this, give private subnet to private routing table and same for public 
+
+Create igw
+
+Go to public Route table-> routes, editing routes , attach it to igw
+
+Ec2 instance called jump box  without key pair, give public subnet and launch instance
+
+Create Elastic ip and now associate it with public (jump box) Instance
+Create another instance for client. In key pair creste one and it will download. See it is connected to private subnet
+Createinstance
+
+Go to jumpbox , give connect ec2 instance
+Go to terminal of client
+Nano client.pem 
+Copy paste the key from the downloads
+Ctrl X
+Cat this file 
+
+Chmod 600 client.pem
+Copy the private ip from client instance 
+ssh -i client.pem ubuntu@<paste the private ip>
